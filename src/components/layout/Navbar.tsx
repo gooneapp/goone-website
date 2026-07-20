@@ -10,7 +10,8 @@ export default function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-primary">GoOne</span>
+            <img src="/logo.png" alt="GoOne Logo" className="h-8 w-auto object-contain" />
+            <span className="text-2xl font-bold text-primary hidden sm:inline-block">GoOne</span>
           </Link>
         </div>
         
