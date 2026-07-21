@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useState } from 'react';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -11,13 +12,35 @@ const formSchema = z.object({
 });
 
 export default function Contact() {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: zodResolver(formSchema)
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    alert("Message sent successfully!");
+  const onSubmit = async (data: any) => {
+    try {
+      setIsSubmitting(true);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+      const response = await fetch(`${apiUrl}/contact/inquiries`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit inquiry');
+      }
+
+      alert("Message sent successfully!");
+      reset();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to send message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -100,9 +123,10 @@ export default function Contact() {
 
               <button 
                 type="submit"
-                className="w-full inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+                disabled={isSubmitting}
+                className="w-full inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 disabled:opacity-50"
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </motion.div>
