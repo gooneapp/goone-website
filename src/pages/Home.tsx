@@ -12,30 +12,36 @@ export default function Home() {
       </Helmet>
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background pt-24 pb-32">
-        <div className="absolute inset-0 bg-grid-slate-100/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-900/[0.04]" />
+      <section className="relative overflow-hidden bg-background pt-32 pb-40">
+        {/* Dynamic Animated Gradients */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen animate-pulse" style={{ animationDelay: '2s' }} />
+        
         <div className="container relative z-10 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
+            <div className="inline-block mb-4 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium backdrop-blur-sm">
+              ✨ The Future of Rural Commerce is Here
+            </div>
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-8 leading-tight">
+              <span className="text-gradient">
                 One App. One Community.
               </span>
               <br />
               Unlimited Opportunities.
             </h1>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
+            <p className="mt-4 max-w-3xl mx-auto text-xl md:text-2xl text-muted-foreground font-light">
               The first Business Operating System built specifically for rural and semi-urban India. Connect your shop, customers, and delivery in one tap.
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link to="/download-app" className="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-transform hover:scale-105">
+            <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Link to="/download-app" className="inline-flex h-14 items-center justify-center rounded-xl bg-primary px-10 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-primary/40 hover:-translate-y-1">
                 Get Started for Free
               </Link>
-              <Link to="/contact" className="inline-flex h-12 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-transform hover:scale-105 hover:bg-accent hover:text-accent-foreground">
-                Book a Demo
+              <Link to="/contact" className="inline-flex h-14 items-center justify-center rounded-xl border border-input bg-background/50 backdrop-blur-sm px-10 text-base font-medium shadow-sm transition-all hover:scale-105 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-1">
+                Book a VIP Demo
               </Link>
             </div>
           </motion.div>
@@ -78,16 +84,17 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="py-32 relative overflow-hidden">
+        <div className="container relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, type: "spring" }}
             >
-              <h2 className="text-3xl font-bold mb-6">Built for local commerce</h2>
-              <ul className="space-y-4">
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-8 leading-tight">Built specifically for <br/><span className="text-gradient">local commerce</span></h2>
+              <ul className="space-y-6">
                 {[
                   "Digital Credit Book (Udhar Khata)",
                   "Voice-guided Interface in Local Languages",
@@ -95,28 +102,54 @@ export default function Home() {
                   "Inventory & Order Management",
                   "Built-in Delivery Partner Matching"
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-center text-lg">
-                    <CheckCircle2 className="h-6 w-6 text-primary mr-4 flex-shrink-0" />
+                  <motion.li 
+                    key={i} 
+                    className="flex items-center text-xl font-medium"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + (i * 0.1) }}
+                  >
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center mr-4 flex-shrink-0">
+                      <CheckCircle2 className="h-5 w-5 text-primary" />
+                    </div>
                     {feature}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-              <div className="mt-8">
-                <Link to="/features" className="inline-flex h-10 items-center justify-center rounded-md bg-secondary px-6 text-sm font-medium text-secondary-foreground shadow transition-transform hover:scale-105">
-                  See all features
+              <div className="mt-12">
+                <Link to="/features" className="inline-flex h-12 items-center justify-center rounded-xl bg-secondary px-8 text-base font-bold text-secondary-foreground shadow-lg shadow-secondary/20 transition-all hover:scale-105 hover:-translate-y-1">
+                  Explore all features <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </div>
             </motion.div>
+            
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8, rotateY: 15 }}
+              whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
               viewport={{ once: true }}
-              className="bg-muted rounded-3xl p-8 aspect-square md:aspect-video lg:aspect-square flex items-center justify-center border shadow-inner"
+              transition={{ duration: 1, type: "spring" }}
+              className="relative perspective-1000"
             >
-              {/* Placeholder for App Screenshot / Mockup */}
-              <div className="text-center">
-                <Store className="h-24 w-24 mx-auto text-muted-foreground/30 mb-4" />
-                <p className="text-muted-foreground/50 font-medium">Interactive App Demo</p>
+              {/* Premium Floating Mockup */}
+              <div className="relative animate-float shimmer-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
+                <img 
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" 
+                  alt="App Dashboard Preview" 
+                  className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity duration-500 mix-blend-lighten"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="glass-effect rounded-xl p-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-white font-bold">Sales Today</p>
+                      <p className="text-emerald-400 font-mono text-xl">₹42,500</p>
+                    </div>
+                    <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <Store className="h-5 w-5 text-emerald-400" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
