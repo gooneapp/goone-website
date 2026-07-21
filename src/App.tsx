@@ -13,6 +13,7 @@ import Careers from '@/pages/Careers';
 import Contact from '@/pages/Contact';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsConditions from '@/pages/TermsConditions';
+import AdminInquiries from '@/pages/AdminInquiries';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="terms-conditions" element={<TermsConditions />} />
+        <Route path="admin/inquiries" element={<AdminInquiries />} />
       </Route>
     </Routes>
   );
