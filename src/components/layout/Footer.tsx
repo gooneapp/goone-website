@@ -12,6 +12,13 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground mb-4">
               One App. One Community. Unlimited Opportunities. The Business Operating System for everyone.
             </p>
+            <div className="space-y-2 mt-4 text-sm text-muted-foreground">
+              <p>Email: goone.app1@gmail.com</p>
+              <p>WhatsApp: +91 6374127764</p>
+              <p>
+                Instagram: <a href="https://instagram.com/_go_one_" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">@_go_one_</a>
+              </p>
+            </div>
           </div>
           <div>
             <h3 className="text-sm font-semibold mb-4">Product</h3>
