@@ -1,25 +1,30 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
+import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
+import { Loader2 } from 'lucide-react';
 
 export default function FAQ() {
-  const faqs = [
-    {
-      q: "What is GoOne?",
-      a: "GoOne is a Business Operating System (BOS) designed specifically for rural and semi-urban India. It connects businesses, customers, and delivery partners through dedicated mobile apps."
-    },
-    {
-      q: "Do I need an internet connection to use GoOne?",
-      a: "GoOne is built with an offline-first architecture. Core functionalities like adding inventory, recording credit, and billing will work offline and sync automatically once you are connected to the internet."
-    },
-    {
-      q: "Is it difficult to learn?",
-      a: "Not at space! We've designed the app to be icon-first with voice-guidance in local languages (Tamil, Hindi, English). If you can use a smartphone, you can use GoOne."
-    },
-    {
-      q: "How does the Digital Credit Book work?",
-      a: "It replaces your paper 'udhar khata'. You can record credit given to a customer with their phone number, and both you and the customer can track the balance directly in your respective apps."
-    }
-  ];
+  const { config, loading, error } = useWebsiteConfig();
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground animate-pulse">Loading FAQ...</p>
+      </div>
+    );
+  }
+
+  if (error || !config) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4 text-center px-4">
+        <p className="text-destructive font-bold text-xl">Failed to load configuration</p>
+        <p className="text-muted-foreground">Please make sure the backend is running and the database is up to date.</p>
+      </div>
+    );
+  }
+
+  const faqs = config.FAQ_LIST || [];
 
   return (
     <>

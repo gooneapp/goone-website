@@ -1,16 +1,30 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Loader2 } from 'lucide-react';
+import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 
 export default function Features() {
-  const features = [
-    { title: "Digital Credit Book (Udhar Khata)", desc: "Replace paper ledgers with an immutable digital record." },
-    { title: "Voice-guided Interface", desc: "Available in local languages to support first-time smartphone users." },
-    { title: "Offline-first Architecture", desc: "Continue operating even when internet connectivity drops." },
-    { title: "Inventory Management", desc: "Track stock, get low-stock alerts, and manage products easily." },
-    { title: "Order Management", desc: "Accept online orders from local customers instantly." },
-    { title: "Employee Roles", desc: "Safely give access to staff with restricted permissions." },
-  ];
+  const { config, loading, error } = useWebsiteConfig();
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground animate-pulse">Loading features...</p>
+      </div>
+    );
+  }
+
+  if (error || !config) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4 text-center px-4">
+        <p className="text-destructive font-bold text-xl">Failed to load configuration</p>
+        <p className="text-muted-foreground">Please make sure the backend is running and the database is up to date.</p>
+      </div>
+    );
+  }
+
+  const features = config.FEATURES_PAGE_LIST || [];
 
   return (
     <>

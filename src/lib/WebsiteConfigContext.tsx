@@ -13,6 +13,12 @@ export interface WebsiteConfig {
   CONTACT_PHONE?: string;
   CONTACT_INSTAGRAM?: string;
   CONTACT_ADDRESS?: string;
+  ABOUT_DESCRIPTION?: string;
+  ABOUT_MISSION?: string;
+  FAQ_LIST?: Array<{ q: string; a: string }>;
+  FEATURES_PAGE_LIST?: Array<{ title: string; desc: string }>;
+  PRIVACY_POLICY_HTML?: string;
+  TERMS_CONDITIONS_HTML?: string;
   [key: string]: any;
 }
 
