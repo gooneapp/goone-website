@@ -41,7 +41,19 @@ export default function Contact() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-bold text-lg mb-1">Email Us</h3>
-                <p className="text-muted-foreground">hello@goone.in</p>
+                <p className="text-muted-foreground">goone.app1@gmail.com</p>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg mb-1">Call/WhatsApp Us</h3>
+                <p className="text-muted-foreground">+91 6374127764</p>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg mb-1">Instagram</h3>
+                <p className="text-muted-foreground">
+                  <a href="https://instagram.com/_go_one_" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+                    @_go_one_
+                  </a>
+                </p>
               </div>
               <div>
                 <h3 className="font-bold text-lg mb-1">Office</h3>
