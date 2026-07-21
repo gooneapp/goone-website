@@ -8,7 +8,7 @@ export interface WebsiteConfig {
   APK_URL: string;
   FEATURES_TITLE: string;
   FEATURES_LIST: string[];
-  PRICING_PLANS: Array<{ name: string; price: string; features: string[] }>;
+  PRICING_PLANS: Array<{ name: string; price: string; desc: string; features: string[]; popular: boolean }>;
   [key: string]: any;
 }
 
