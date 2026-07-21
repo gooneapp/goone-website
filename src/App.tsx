@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { WebsiteConfigProvider } from '@/lib/WebsiteConfigContext';
 import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
 import About from '@/pages/About';
@@ -17,24 +18,26 @@ import AdminInquiries from '@/pages/AdminInquiries';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="features" element={<Features />} />
-        <Route path="solutions" element={<Solutions />} />
-        <Route path="how-it-works" element={<HowItWorks />} />
-        <Route path="pricing" element={<Pricing />} />
-        <Route path="download-app" element={<DownloadApp />} />
-        <Route path="faq" element={<FAQ />} />
-        <Route path="blog" element={<Blog />} />
-        <Route path="careers" element={<Careers />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="terms-conditions" element={<TermsConditions />} />
-        <Route path="admin/inquiries" element={<AdminInquiries />} />
-      </Route>
-    </Routes>
+    <WebsiteConfigProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="features" element={<Features />} />
+          <Route path="solutions" element={<Solutions />} />
+          <Route path="how-it-works" element={<HowItWorks />} />
+          <Route path="pricing" element={<Pricing />} />
+          <Route path="download-app" element={<DownloadApp />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="careers" element={<Careers />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="terms-conditions" element={<TermsConditions />} />
+          <Route path="admin/inquiries" element={<AdminInquiries />} />
+        </Route>
+      </Routes>
+    </WebsiteConfigProvider>
   );
 }
 

@@ -1,32 +1,22 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 
 export default function Pricing() {
-  const plans = [
-    {
-      name: "Basic",
-      price: "Free",
-      desc: "Perfect for getting started",
-      features: ["Digital Credit Book", "Basic Inventory", "Up to 50 Orders/month", "Voice Guidance"],
-      popular: false
-    },
-    {
-      name: "Pro",
-      price: "₹299/mo",
-      desc: "For growing businesses",
-      features: ["Everything in Basic", "Unlimited Orders", "Employee Accounts", "Advanced Analytics", "Delivery Partner Integration"],
-      popular: true
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      desc: "For large operations",
-      features: ["Everything in Pro", "Multi-branch Support", "Dedicated Manager", "Custom Branding", "API Access"],
-      popular: false
-    }
-  ];
+  const { config, loading } = useWebsiteConfig();
+
+  if (loading || !config) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground animate-pulse">Loading pricing plans...</p>
+      </div>
+    );
+  }
+
+  const plans = config.PRICING_PLANS || [];
 
   return (
     <>

@@ -1,9 +1,21 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Store, ShoppingCart, Truck, LayoutDashboard, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Store, ShoppingCart, Truck, LayoutDashboard, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 
 export default function Home() {
+  const { config, loading } = useWebsiteConfig();
+
+  if (loading || !config) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground animate-pulse">Loading amazing things...</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -28,18 +40,18 @@ export default function Home() {
             </div>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-8 leading-tight">
               <span className="text-gradient">
-                One App. One Community.
+                {config.HERO_TITLE || "One App. One Community."}
               </span>
               <br />
-              Unlimited Opportunities.
+              {config.HERO_SUBTITLE || "Unlimited Opportunities."}
             </h1>
             <p className="mt-4 max-w-3xl mx-auto text-xl md:text-2xl text-muted-foreground font-light">
-              The first Business Operating System built specifically for rural and semi-urban India. Connect your shop, customers, and delivery in one tap.
+              {config.HERO_DESCRIPTION || "The first Business Operating System built specifically for rural and semi-urban India. Connect your shop, customers, and delivery in one tap."}
             </p>
             <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link to="/download-app" className="inline-flex h-14 items-center justify-center rounded-xl bg-primary px-10 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-primary/40 hover:-translate-y-1">
-                Get Started for Free
-              </Link>
+              <a href={config.APK_URL || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex h-14 items-center justify-center rounded-xl bg-primary px-10 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-primary/40 hover:-translate-y-1">
+                Download APK
+              </a>
               <Link to="/contact" className="inline-flex h-14 items-center justify-center rounded-xl border border-input bg-background/50 backdrop-blur-sm px-10 text-base font-medium shadow-sm transition-all hover:scale-105 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-1">
                 Book a VIP Demo
               </Link>
@@ -93,15 +105,9 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, type: "spring" }}
             >
-              <h2 className="text-4xl md:text-5xl font-extrabold mb-8 leading-tight">Built specifically for <br/><span className="text-gradient">local commerce</span></h2>
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-8 leading-tight"><span className="text-gradient">{config.FEATURES_TITLE || "Built specifically for local commerce"}</span></h2>
               <ul className="space-y-6">
-                {[
-                  "Digital Credit Book (Udhar Khata)",
-                  "Voice-guided Interface in Local Languages",
-                  "Offline-first Architecture",
-                  "Inventory & Order Management",
-                  "Built-in Delivery Partner Matching"
-                ].map((feature, i) => (
+                {(config.FEATURES_LIST || []).map((feature, i) => (
                   <motion.li 
                     key={i} 
                     className="flex items-center text-xl font-medium"
@@ -134,7 +140,7 @@ export default function Home() {
               {/* Premium Floating Mockup */}
               <div className="relative animate-float shimmer-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
                 <img 
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" 
+                  src={config.HERO_IMAGE_URL || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80"} 
                   alt="App Dashboard Preview" 
                   className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity duration-500 mix-blend-lighten"
                 />
@@ -163,9 +169,9 @@ export default function Home() {
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-10 text-lg">
             Join thousands of businesses across India that are growing with GoOne.
           </p>
-          <Link to="/download-app" className="inline-flex h-12 items-center justify-center rounded-md bg-white px-8 text-sm font-bold text-primary shadow transition-transform hover:scale-105 hover:bg-white/90">
+          <a href={config.APK_URL || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center justify-center rounded-md bg-white px-8 text-sm font-bold text-primary shadow transition-transform hover:scale-105 hover:bg-white/90">
             Download the App Now
-          </Link>
+          </a>
         </div>
       </section>
     </>
