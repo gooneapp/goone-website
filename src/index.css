@@ -80,3 +80,52 @@
 .glass-effect {
   @apply bg-white/70 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10;
 }
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+}
+
+.bg-gradient-premium {
+  @apply bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10;
+}
+
+.bg-gradient-premium-dark {
+  @apply bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20;
+}
+
+/* Float Animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Shimmer Effect for Cards */
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  transform: skewX(-20deg);
+  animation: shimmer 3s infinite;
+}
+
+.dark .shimmer-card::before {
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+}
+
+@keyframes shimmer {
+  100% { left: 200%; }
+}
