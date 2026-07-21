@@ -5,13 +5,25 @@ import { Link } from 'react-router-dom';
 import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 
 export default function Pricing() {
-  const { config, loading } = useWebsiteConfig();
+  const { config, loading, error } = useWebsiteConfig();
 
-  if (loading || !config) {
+  if (loading) {
     return (
       <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
         <p className="text-muted-foreground animate-pulse">Loading pricing plans...</p>
+      </div>
+    );
+  }
+
+  if (error || !config) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4 text-center px-4">
+        <p className="text-destructive font-bold text-xl">Failed to load configuration</p>
+        <p className="text-muted-foreground">Please make sure the backend is running and the database is up to date.</p>
+        <p className="text-sm bg-muted p-4 rounded mt-4 max-w-lg overflow-auto">
+          {error?.message || "Unknown error occurred"}
+        </p>
       </div>
     );
   }
