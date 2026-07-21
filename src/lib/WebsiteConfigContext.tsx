@@ -9,6 +9,10 @@ export interface WebsiteConfig {
   FEATURES_TITLE: string;
   FEATURES_LIST: string[];
   PRICING_PLANS: Array<{ name: string; price: string; desc: string; features: string[]; popular: boolean }>;
+  CONTACT_EMAIL?: string;
+  CONTACT_PHONE?: string;
+  CONTACT_INSTAGRAM?: string;
+  CONTACT_ADDRESS?: string;
   [key: string]: any;
 }
 

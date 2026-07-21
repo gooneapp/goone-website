@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useState } from 'react';
+import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -13,9 +15,31 @@ const formSchema = z.object({
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { config, loading, error: configError } = useWebsiteConfig();
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: zodResolver(formSchema)
   });
+
+  if (loading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground animate-pulse">Loading contact information...</p>
+      </div>
+    );
+  }
+
+  if (configError || !config) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center flex-col gap-4 text-center px-4">
+        <p className="text-destructive font-bold text-xl">Failed to load configuration</p>
+        <p className="text-muted-foreground">Please make sure the backend is running and the database is up to date.</p>
+        <p className="text-sm bg-muted p-4 rounded mt-4 max-w-lg overflow-auto">
+          {configError?.message || "Unknown error occurred"}
+        </p>
+      </div>
+    );
+  }
 
   const onSubmit = async (data: any) => {
     try {
@@ -64,23 +88,23 @@ export default function Contact() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-bold text-lg mb-1">Email Us</h3>
-                <p className="text-muted-foreground">goone.app1@gmail.com</p>
+                <p className="text-muted-foreground">{config.CONTACT_EMAIL || "goone.app1@gmail.com"}</p>
               </div>
               <div>
                 <h3 className="font-bold text-lg mb-1">Call/WhatsApp Us</h3>
-                <p className="text-muted-foreground">+91 6374127764</p>
+                <p className="text-muted-foreground">{config.CONTACT_PHONE || "+91 6374127764"}</p>
               </div>
               <div>
                 <h3 className="font-bold text-lg mb-1">Instagram</h3>
                 <p className="text-muted-foreground">
-                  <a href="https://instagram.com/_go_one_" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
-                    @_go_one_
+                  <a href={config.CONTACT_INSTAGRAM || "https://instagram.com/_go_one_"} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+                    {config.CONTACT_INSTAGRAM?.replace('https://instagram.com/', '@') || "@_go_one_"}
                   </a>
                 </p>
               </div>
               <div>
                 <h3 className="font-bold text-lg mb-1">Office</h3>
-                <p className="text-muted-foreground">Bangalore, India</p>
+                <p className="text-muted-foreground">{config.CONTACT_ADDRESS || "Bangalore, India"}</p>
               </div>
             </div>
           </motion.div>
