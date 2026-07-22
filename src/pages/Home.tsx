@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 import { useLanguage } from '@/lib/LanguageContext';
 import { translations } from '@/lib/translations';
+import PlatformOverview from '@/components/PlatformOverview';
 
 export default function Home() {
   const { config, loading, error } = useWebsiteConfig();
@@ -134,6 +135,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Platform Overview UI Reference Component */}
+      <PlatformOverview />
 
       {/* Products Section */}
       <section className="py-24 bg-muted/30 border-y">
