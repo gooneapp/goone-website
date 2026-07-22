@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { 
   Store, ShoppingCart, Car, LayoutDashboard, CheckCircle2, 
-  ArrowRight, ShieldCheck, Truck, Utensils, Sprout, Stethoscope, 
+  ArrowRight, Truck, Utensils, Sprout, Stethoscope, 
   ShoppingBag, Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';

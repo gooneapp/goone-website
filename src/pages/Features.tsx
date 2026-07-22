@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { 
   CheckCircle2, Loader2, Database, Shield, Code, Rocket, 
-  Check, FileText, AlertTriangle, Layers, Cpu, Server, Lock
+  Check, FileText, AlertTriangle
 } from 'lucide-react';
 import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 import { useLanguage } from '@/lib/LanguageContext';

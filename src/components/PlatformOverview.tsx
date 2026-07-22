@@ -4,9 +4,9 @@ import {
   Layers, Database, Users, Boxes, Receipt, 
   ShoppingBag, Wallet, BookOpen, TrendingUp, Tag, 
   Bell, UserCheck, Bike, CreditCard, ShieldAlert, 
-  ClipboardList, CheckCircle2, ArrowRight, Clock, 
+  ClipboardList, CheckCircle2, ArrowRight, 
   Server, Sparkles, Check, ShieldCheck, Zap,
-  Compass, RefreshCw
+  Compass
 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
