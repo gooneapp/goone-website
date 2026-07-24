@@ -51,7 +51,7 @@ export default function Contact() {
   const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://api.goone.tech/api/v1';
       const response = await fetch(`${apiUrl}/contact/inquiries`, {
         method: 'POST',
         headers: {

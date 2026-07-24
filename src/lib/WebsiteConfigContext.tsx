@@ -38,7 +38,7 @@ export function WebsiteConfigProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function fetchConfig() {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://api.goone.tech/api/v1';
         const res = await fetch(`${apiUrl}/config/website`);
         if (!res.ok) throw new Error('Failed to fetch website config');
         const data = await res.json();

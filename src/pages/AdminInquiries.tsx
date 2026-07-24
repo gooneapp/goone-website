@@ -19,7 +19,7 @@ export default function AdminInquiries() {
   useEffect(() => {
     async function fetchInquiries() {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://api.goone.tech/api/v1';
         const response = await fetch(`${apiUrl}/contact/inquiries`);
         
         if (!response.ok) {
