@@ -171,7 +171,7 @@ export default function PlatformOverview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card p-5 md:p-6 rounded-2xl border shadow-sm hover:shadow-md transition-all group"
+              className="bg-card p-5 md:p-6 rounded-2xl border shadow-sm card-hover group"
             >
               <div className={`w-12 h-12 rounded-xl ${st.bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                 <st.icon className={`w-6 h-6 ${st.color}`} />
@@ -197,7 +197,7 @@ export default function PlatformOverview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`bg-gradient-to-b ${p.color} bg-card p-6 rounded-2xl border shadow-sm hover:shadow-lg transition-all flex flex-col justify-between`}
+                className={`bg-gradient-to-b ${p.color} bg-card p-6 rounded-2xl border shadow-sm card-hover flex flex-col justify-between`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-4 border-b pb-3">

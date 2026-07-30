@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -16,6 +16,7 @@ const formSchema = z.object({
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const { config, loading, error: configError } = useWebsiteConfig();
   const { language, t } = useLanguage();
   
@@ -51,6 +52,7 @@ export default function Contact() {
   const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
+      setStatus('idle');
       const apiUrl = import.meta.env.VITE_API_URL || 'https://api.goone.tech/api/v1';
       const response = await fetch(`${apiUrl}/contact/inquiries`, {
         method: 'POST',
@@ -64,11 +66,11 @@ export default function Contact() {
         throw new Error('Failed to submit inquiry');
       }
 
-      alert(language === 'ta' ? "செய்தி வெற்றிகரமாக அனுப்பப்பட்டது!" : "Message sent successfully!");
+      setStatus('success');
       reset();
     } catch (error) {
       console.error(error);
-      alert(language === 'ta' ? "செய்தி அனுப்ப முடியவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்." : "Failed to send message. Please try again later.");
+      setStatus('error');
     } finally {
       setIsSubmitting(false);
     }
@@ -131,9 +133,9 @@ export default function Contact() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium mb-2">{t('contact.name')}</label>
-                <input 
+                <input
                   {...register("name")}
-                  className="w-full flex h-12 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="w-full flex h-12 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:shadow-[0_0_12px_rgba(26,111,212,0.35)] transition-all duration-200"
                   placeholder="John Doe"
                 />
                 {errors.name && <p className="text-destructive text-sm mt-1">{errors.name.message as string}</p>}
@@ -141,9 +143,9 @@ export default function Contact() {
               
               <div>
                 <label className="block text-sm font-medium mb-2">{t('contact.email_label')}</label>
-                <input 
+                <input
                   {...register("email")}
-                  className="w-full flex h-12 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="w-full flex h-12 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:shadow-[0_0_12px_rgba(26,111,212,0.35)] transition-all duration-200"
                   placeholder="john@example.com"
                 />
                 {errors.email && <p className="text-destructive text-sm mt-1">{errors.email.message as string}</p>}
@@ -151,21 +153,37 @@ export default function Contact() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">{t('contact.message')}</label>
-                <textarea 
+                <textarea
                   {...register("message")}
-                  className="w-full flex min-h-[120px] rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="w-full flex min-h-[120px] rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:shadow-[0_0_12px_rgba(26,111,212,0.35)] transition-all duration-200"
                   placeholder="How can we help you?"
                 />
                 {errors.message && <p className="text-destructive text-sm mt-1">{errors.message.message as string}</p>}
               </div>
 
-              <button 
+              <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 disabled:opacity-50"
+                className="btn-glow w-full inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 disabled:opacity-50"
               >
                 {isSubmitting ? t('contact.sending') : t('contact.send')}
               </button>
+
+              <AnimatePresence mode="wait">
+                {status !== 'idle' && (
+                  <motion.p
+                    key={status}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className={status === 'success' ? 'text-primary font-medium mt-3' : 'text-destructive font-medium mt-3'}
+                  >
+                    {status === 'success'
+                      ? (language === 'ta' ? "செய்தி வெற்றிகரமாக அனுப்பப்பட்டது!" : "Message sent successfully!")
+                      : (language === 'ta' ? "செய்தி அனுப்ப முடியவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்." : "Failed to send message. Please try again later.")}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </form>
           </motion.div>
         </div>

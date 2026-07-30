@@ -61,10 +61,10 @@ export default function DownloadApp() {
               <p className="text-muted-foreground mb-8 flex-1">{app.desc}</p>
               
               {apkUrls[app.id as keyof typeof apkUrls] ? (
-                <a 
+                <a
                   href={`${import.meta.env.VITE_API_URL.replace('/api/v1', '')}${apkUrls[app.id as keyof typeof apkUrls]}`}
                   download
-                  className="w-full block py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors"
+                  className="w-full block py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors btn-glow"
                 >
                   Download APK
                 </a>

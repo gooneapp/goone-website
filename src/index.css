@@ -77,6 +77,55 @@
 }
 
 /* Premium Animations & Effects */
+.btn-glow {
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px 2px rgba(26,111,212,0.35);
+}
+.btn-glow:hover {
+  box-shadow: 0 0 28px 6px rgba(123,47,190,0.5);
+  transform: translateY(-2px);
+}
+.btn-glow:active { transform: translateY(0); }
+
+.bg-gradient-animated {
+  background-size: 200% 200%;
+}
+@layer utilities {
+  .bg-gradient-animated {
+    @apply bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 animate-gradient-pan;
+  }
+  .dark .bg-gradient-animated {
+    @apply from-primary/20 via-secondary/20 to-accent/20;
+  }
+}
+
+.nav-link-glow {
+  position: relative;
+}
+.nav-link-glow::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(to right, #1A6FD4, #7B2FBE);
+  transition: width 0.3s ease;
+}
+.nav-link-glow:hover::after { width: 100%; }
+
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 10px 30px -10px rgba(26,111,212,0.1);
+  transform: translateY(-4px);
+}
+
+.animate-float-slow { animation: float 6s ease-in-out infinite; }
+.animate-float-fast { animation: float 3s ease-in-out infinite; }
+
 .glass-effect {
   @apply bg-white/70 dark:bg-black/70 backdrop-blur-md border border-white/20 dark:border-white/10;
 }
@@ -128,4 +177,14 @@
 
 @keyframes shimmer {
   100% { left: 200%; }
+}
+
+/* Reduced Motion Guard (belt-and-suspenders alongside MotionConfig) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

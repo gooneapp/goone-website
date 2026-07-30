@@ -91,7 +91,7 @@ export default function Pricing() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className={`bg-card p-8 rounded-3xl border flex flex-col ${plan.popular ? 'border-primary shadow-lg relative scale-105' : 'shadow-sm'}`}
+              className={`bg-card p-8 rounded-3xl border flex flex-col ${plan.popular ? 'border-primary shadow-lg relative scale-105' : 'shadow-sm card-hover'}`}
             >
               {plan.popular && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -114,8 +114,8 @@ export default function Pricing() {
               <Link 
                 to="/contact" 
                 className={`w-full py-3 rounded-xl font-medium text-center transition-colors ${
-                  plan.popular 
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                  plan.popular
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 btn-glow'
                     : 'bg-secondary/10 text-secondary hover:bg-secondary/20'
                 }`}
               >

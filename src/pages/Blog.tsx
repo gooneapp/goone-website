@@ -50,7 +50,7 @@ export default function Blog() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
+              className="bg-card border rounded-2xl overflow-hidden shadow-sm card-hover group"
             >
               <div className="aspect-video bg-muted w-full" />
               <div className="p-6">

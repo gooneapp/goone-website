@@ -1,23 +1,25 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Store, ShoppingCart, Truck, LayoutDashboard, ArrowRight, CheckCircle2, Loader2 } from 'lucide-react';
+import { Store, ShoppingCart, Truck, LayoutDashboard, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 import { useLanguage } from '@/lib/LanguageContext';
 import { translations } from '@/lib/translations';
 import PlatformOverview from '@/components/PlatformOverview';
+import PageLoadingSkeleton from '@/components/motion/PageLoadingSkeleton';
+import { useAppReducedMotion } from '@/lib/motion';
 
 export default function Home() {
   const { config, loading, error } = useWebsiteConfig();
   const { language, t } = useLanguage();
+  const heroRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useAppReducedMotion();
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroBlobY = useTransform(scrollYProgress, [0, 1], prefersReducedMotion ? [0, 0] : [0, 60]);
 
   if (loading) {
-    return (
-      <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-muted-foreground animate-pulse">Loading amazing things...</p>
-      </div>
-    );
+    return <PageLoadingSkeleton />;
   }
 
   if (error || !config) {
@@ -101,10 +103,12 @@ export default function Home() {
       </Helmet>
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background pt-32 pb-40">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-pulse pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
-        
+      <section ref={heroRef} className="relative overflow-hidden bg-background bg-gradient-animated pt-32 pb-40">
+        <motion.div style={{ y: heroBlobY }} className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-pulse pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[150px] mix-blend-multiply dark:mix-blend-screen animate-[pulse_5s_ease-in-out_infinite] pointer-events-none" style={{ animationDelay: '2s' }} />
+        </motion.div>
+
         <div className="container relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 30 }}
@@ -125,10 +129,10 @@ export default function Home() {
               {getVal('HERO_DESCRIPTION', 'home.hero_description')}
             </p>
             <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <a href={config.APK_URL || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex h-14 items-center justify-center rounded-xl bg-primary px-10 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-primary/40 hover:-translate-y-1">
+              <a href={config.APK_URL || "#"} target="_blank" rel="noopener noreferrer" className="btn-glow animate-glow-pulse inline-flex h-14 items-center justify-center rounded-xl bg-primary px-10 text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-primary/40 hover:-translate-y-1">
                 {t('home.download_btn')}
               </a>
-              <Link to="/contact" className="inline-flex h-14 items-center justify-center rounded-xl border border-input bg-background/50 backdrop-blur-sm px-10 text-base font-medium shadow-sm transition-all hover:scale-105 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-1">
+              <Link to="/contact" className="btn-glow inline-flex h-14 items-center justify-center rounded-xl border border-input bg-background/50 backdrop-blur-sm px-10 text-base font-medium shadow-sm transition-all hover:scale-105 hover:bg-accent hover:text-accent-foreground hover:border-accent hover:-translate-y-1">
                 {t('home.demo_btn')}
               </Link>
             </div>
@@ -220,6 +224,22 @@ export default function Home() {
               transition={{ duration: 1, type: "spring" }}
               className="relative perspective-1000"
             >
+              {/* Floating decorative badges (desynced from the mockup's own animate-float) */}
+              <div
+                className="hidden sm:flex absolute -top-6 -right-6 z-20 h-14 w-14 items-center justify-center rounded-2xl bg-card border shadow-lg animate-float-slow"
+                style={{ animationDelay: '1s' }}
+                aria-hidden="true"
+              >
+                <CheckCircle2 className="h-6 w-6 text-emerald-500" />
+              </div>
+              <div
+                className="hidden sm:flex absolute -bottom-4 -left-4 z-20 h-10 w-10 items-center justify-center rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm animate-float-fast"
+                style={{ animationDelay: '0.5s' }}
+                aria-hidden="true"
+              >
+                <ShoppingCart className="h-4 w-4 text-primary" />
+              </div>
+
               <div className="relative animate-float shimmer-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-black">
                 <img 
                   src={config.HERO_IMAGE_URL || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80"} 
@@ -251,7 +271,7 @@ export default function Home() {
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-10 text-lg">
             {t('home.cta_subtitle')}
           </p>
-          <a href={config.APK_URL || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center justify-center rounded-xl bg-white px-8 text-sm font-bold text-primary shadow transition-transform hover:scale-105 hover:bg-white/90">
+          <a href={config.APK_URL || "#"} target="_blank" rel="noopener noreferrer" className="btn-glow inline-flex h-12 items-center justify-center rounded-xl bg-white px-8 text-sm font-bold text-primary shadow transition-transform hover:scale-105 hover:bg-white/90">
             {t('home.cta_btn')}
           </a>
         </div>

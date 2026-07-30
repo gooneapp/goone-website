@@ -143,24 +143,26 @@ export default function Solutions() {
       <div className="container py-24">
 
         {/* Page Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span>{isTa ? 'அனைத்து வணிகத்திற்குமான தீர்வுகள்' : 'Tailored Platform Ecosystem'}</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
-            {isTa ? '4 முக்கிய தயாரிப்புகள் · ஒரு முழுமையான தளம்' : '4 Integrated Products · One Ecosystem'}
-          </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            {isTa 
-              ? 'வாடிக்கையாளர்கள், வணிகங்கள், ஓட்டுனர்கள் மற்றும் நிர்வாகிகளுக்கான பிரத்யேக கருவிகள்.' 
-              : 'GoOne adapts to every role in the hyperlocal commerce loop with dedicated apps and management tools.'}
-          </p>
-        </motion.div>
+        <section className="relative overflow-hidden rounded-3xl bg-gradient-animated mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative max-w-3xl mx-auto text-center py-16 px-6"
+          >
+            <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span>{isTa ? 'அனைத்து வணிகத்திற்குமான தீர்வுகள்' : 'Tailored Platform Ecosystem'}</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
+              {isTa ? '4 முக்கிய தயாரிப்புகள் · ஒரு முழுமையான தளம்' : '4 Integrated Products · One Ecosystem'}
+            </h1>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              {isTa
+                ? 'வாடிக்கையாளர்கள், வணிகங்கள், ஓட்டுனர்கள் மற்றும் நிர்வாகிகளுக்கான பிரத்யேக கருவிகள்.'
+                : 'GoOne adapts to every role in the hyperlocal commerce loop with dedicated apps and management tools.'}
+            </p>
+          </motion.div>
+        </section>
 
         {/* Product Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-24">
@@ -171,7 +173,7 @@ export default function Solutions() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`p-8 rounded-3xl border shadow-sm hover:shadow-md transition-all ${prod.color} flex flex-col justify-between`}
+              className={`p-8 rounded-3xl border shadow-sm card-hover ${prod.color} flex flex-col justify-between`}
             >
               <div>
                 <div className="flex items-center justify-between mb-6">

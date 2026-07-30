@@ -32,9 +32,9 @@ export default function Careers() {
           <div className="p-8 border-b bg-muted/30">
             <h2 className="text-2xl font-bold">Open Positions</h2>
           </div>
-          <div className="divide-y">
+          <div className="p-4 md:p-6 space-y-4">
             {jobs.map((job, i) => (
-              <div key={i} className="p-8 flex flex-col md:flex-row md:items-center justify-between hover:bg-muted/10 transition-colors">
+              <div key={i} className="p-6 rounded-2xl border bg-card card-hover flex flex-col md:flex-row md:items-center justify-between">
                 <div>
                   <h3 className="text-lg font-bold mb-1">{job.title}</h3>
                   <div className="flex items-center text-sm text-muted-foreground space-x-4">

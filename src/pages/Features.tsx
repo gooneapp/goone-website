@@ -86,21 +86,23 @@ export default function Features() {
       
       <div className="container py-24">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto text-center mb-16"
-        >
-          <div className="inline-block mb-4 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
-            {isTa ? 'எண்டர்பிரைஸ் பிசினஸ் ஆப்பரேட்டிங் சிஸ்டம்' : 'Enterprise BOS · Production Ready'}
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
-            {isTa ? 'எளிமையான வடிவமைப்பு, வலிமையான அம்சங்கள்' : 'Powerful Features, Enterprise Architecture'}
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            {isTa ? 'உங்கள் கடை செயல்பாடுகளை எளிதாக்கவும், வளர்ச்சியை துரிதப்படுத்தவும் 28+ மாடுலர் அம்சங்கள்.' : '28+ isolated feature modules, built on a unified Node.js & PostgreSQL architecture.'}
-          </p>
-        </motion.div>
+        <section className="relative overflow-hidden rounded-3xl bg-gradient-animated mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative max-w-3xl mx-auto text-center py-16 px-6"
+          >
+            <div className="inline-block mb-4 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-primary text-sm font-medium">
+              {isTa ? 'எண்டர்பிரைஸ் பிசினஸ் ஆப்பரேட்டிங் சிஸ்டம்' : 'Enterprise BOS · Production Ready'}
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-6">
+              {isTa ? 'எளிமையான வடிவமைப்பு, வலிமையான அம்சங்கள்' : 'Powerful Features, Enterprise Architecture'}
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              {isTa ? 'உங்கள் கடை செயல்பாடுகளை எளிதாக்கவும், வளர்ச்சியை துரிதப்படுத்தவும் 28+ மாடுலர் அம்சங்கள்.' : '28+ isolated feature modules, built on a unified Node.js & PostgreSQL architecture.'}
+            </p>
+          </motion.div>
+        </section>
 
         {/* Feature List Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fadeIn mb-24">
@@ -111,7 +113,7 @@ export default function Features() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card p-6 rounded-2xl border shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+              className="bg-card p-6 rounded-2xl border shadow-sm card-hover flex flex-col justify-between"
             >
               <div>
                 <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">

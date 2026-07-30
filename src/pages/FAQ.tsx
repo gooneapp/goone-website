@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useWebsiteConfig } from '@/lib/WebsiteConfigContext';
 import { Loader2 } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function FAQ() {
   const { config, loading, error } = useWebsiteConfig();
@@ -86,19 +87,23 @@ export default function FAQ() {
           </p>
         </motion.div>
 
-        <div className="space-y-6 animate-fadeIn">
-          {resolvedFaqs.map((faq: any, i: number) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-card p-6 rounded-2xl border shadow-sm hover:shadow-md transition-shadow"
-            >
-              <h3 className="text-xl font-bold mb-3">{faq.q}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
-            </motion.div>
-          ))}
+        <div className="animate-fadeIn">
+          <Accordion type="single" collapsible className="space-y-4">
+            {resolvedFaqs.map((faq: any, i: number) => (
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="card-hover rounded-2xl border bg-card px-6 shadow-sm"
+              >
+                <AccordionTrigger className="text-xl font-bold hover:no-underline">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground text-sm leading-relaxed">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
     </>

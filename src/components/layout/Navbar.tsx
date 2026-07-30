@@ -1,25 +1,25 @@
 import { Link } from 'react-router-dom';
 import { Menu, X, Moon, Sun } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
+    const stored = localStorage.getItem('goone-theme');
+    if (stored) return stored === 'dark';
     return document.documentElement.classList.contains('dark');
   });
   const { language, setLanguage, t } = useLanguage();
 
-  const toggleTheme = () => {
+  useEffect(() => {
     const root = document.documentElement;
-    if (isDark) {
-      root.classList.remove('dark');
-      setIsDark(false);
-    } else {
-      root.classList.add('dark');
-      setIsDark(true);
-    }
-  };
+    if (isDark) root.classList.add('dark'); else root.classList.remove('dark');
+    localStorage.setItem('goone-theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
+
+  const toggleTheme = () => setIsDark((prev) => !prev);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -33,10 +33,10 @@ export default function Navbar() {
         
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link to="/features" className="transition-colors hover:text-primary">{t('navbar.features')}</Link>
-          <Link to="/solutions" className="transition-colors hover:text-primary">{t('navbar.solutions')}</Link>
-          <Link to="/pricing" className="transition-colors hover:text-primary">{t('navbar.pricing')}</Link>
-          <Link to="/about" className="transition-colors hover:text-primary">{t('navbar.about')}</Link>
+          <Link to="/features" className="transition-colors hover:text-primary nav-link-glow">{t('navbar.features')}</Link>
+          <Link to="/solutions" className="transition-colors hover:text-primary nav-link-glow">{t('navbar.solutions')}</Link>
+          <Link to="/pricing" className="transition-colors hover:text-primary nav-link-glow">{t('navbar.pricing')}</Link>
+          <Link to="/about" className="transition-colors hover:text-primary nav-link-glow">{t('navbar.about')}</Link>
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -48,7 +48,18 @@ export default function Navbar() {
             🌐 {language === 'en' ? 'தமிழ்' : 'English'}
           </button>
           <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-muted transition-colors" aria-label="Toggle dark mode">
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={isDark ? 'sun' : 'moon'}
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="inline-flex"
+              >
+                {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </motion.span>
+            </AnimatePresence>
           </button>
           <Link to="/contact" className="text-sm font-medium hover:text-primary transition-colors">
             {t('navbar.contact')}
@@ -67,27 +78,46 @@ export default function Navbar() {
             🌐 {language === 'en' ? 'தமிழ்' : 'English'}
           </button>
           <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-muted transition-colors" aria-label="Toggle dark mode">
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={isDark ? 'sun' : 'moon'}
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="inline-flex"
+              >
+                {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </motion.span>
+            </AnimatePresence>
           </button>
           <button onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="container md:hidden py-4 border-b">
-          <nav className="flex flex-col space-y-4">
-            <Link to="/features" onClick={() => setIsOpen(false)}>{t('navbar.features')}</Link>
-            <Link to="/solutions" onClick={() => setIsOpen(false)}>{t('navbar.solutions')}</Link>
-            <Link to="/pricing" onClick={() => setIsOpen(false)}>{t('navbar.pricing')}</Link>
-            <Link to="/about" onClick={() => setIsOpen(false)}>{t('navbar.about')}</Link>
-            <Link to="/contact" onClick={() => setIsOpen(false)}>{t('navbar.contact')}</Link>
-            <Link to="/download-app" className="font-semibold text-primary" onClick={() => setIsOpen(false)}>{t('navbar.download')}</Link>
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="container md:hidden py-4 border-b overflow-hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+          >
+            <nav className="flex flex-col space-y-4">
+              <Link to="/features" onClick={() => setIsOpen(false)}>{t('navbar.features')}</Link>
+              <Link to="/solutions" onClick={() => setIsOpen(false)}>{t('navbar.solutions')}</Link>
+              <Link to="/pricing" onClick={() => setIsOpen(false)}>{t('navbar.pricing')}</Link>
+              <Link to="/about" onClick={() => setIsOpen(false)}>{t('navbar.about')}</Link>
+              <Link to="/contact" onClick={() => setIsOpen(false)}>{t('navbar.contact')}</Link>
+              <Link to="/download-app" className="font-semibold text-primary" onClick={() => setIsOpen(false)}>{t('navbar.download')}</Link>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
