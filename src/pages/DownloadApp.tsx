@@ -3,6 +3,24 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Store, ShoppingCart, Truck } from 'lucide-react';
 
+/**
+ * Resolves a stored APK config value to a fetchable URL.
+ *
+ * The value is a site-relative path when the backend stores files on local disk,
+ * but an absolute Cloudinary URL in production. Blindly prefixing the API origin
+ * produced `https://api.goone.techhttps://res.cloudinary.com/...` and broke every
+ * download link the moment STORAGE_PROVIDER was switched.
+ */
+function resolveApkUrl(value: string): string {
+  if (/^https?:\/\//i.test(value)) return value;
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (!apiUrl) return value; // .replace() on undefined would throw
+
+  const origin = apiUrl.replace(/\/api\/v\d+\/?$/, '');
+  return `${origin}${value.startsWith('/') ? '' : '/'}${value}`;
+}
+
 export default function DownloadApp() {
   const [apkUrls, setApkUrls] = useState<{ business?: string, customer?: string, partner?: string }>({});
 
@@ -62,7 +80,7 @@ export default function DownloadApp() {
               
               {apkUrls[app.id as keyof typeof apkUrls] ? (
                 <a
-                  href={`${import.meta.env.VITE_API_URL.replace('/api/v1', '')}${apkUrls[app.id as keyof typeof apkUrls]}`}
+                  href={resolveApkUrl(apkUrls[app.id as keyof typeof apkUrls]!)}
                   download
                   className="w-full block py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary/90 transition-colors btn-glow"
                 >
